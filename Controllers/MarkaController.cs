@@ -1,8 +1,6 @@
-using Commands.deleteItem;
+
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-
-
 
 [Route("marka")]
 [ApiController]

@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 
 
-  [Route("price")]
+  [Route("trader")]
   [ApiController]
   public class TraderController : ControllerBase
   {
