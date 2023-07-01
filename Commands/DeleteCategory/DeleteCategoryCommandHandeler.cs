@@ -1,6 +1,5 @@
 using Data;
 using MediatR;
-using Models;
 
 namespace Commands.deleteItem
 {

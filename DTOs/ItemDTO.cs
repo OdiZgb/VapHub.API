@@ -1,4 +1,3 @@
-using Models;
 
 public class ItemDTO{
     public int Id{set;get;}

@@ -18,6 +18,7 @@ public class AddToInventoryCommandHandeler : IRequestHandler<AddToInventoryComma
     {
         var Item = _dbContext.Items.Include(x => x.Category).Include(x => x.Marka).Include(x => x.PriceIn).FirstOrDefault(x => x.Id == request._inventoryDTO.ItemId);
         var PriceIn = _dbContext.PriceIn.FirstOrDefault(x => x.Id == request._inventoryDTO.PriceInId);
+        var Trader = _dbContext.Traders.FirstOrDefault(x => x.Id == request._inventoryDTO.TraderId);
 
         var inventory = new Inventory
         {
@@ -29,7 +30,9 @@ public class AddToInventoryCommandHandeler : IRequestHandler<AddToInventoryComma
             PriceIn = PriceIn,
             PriceInId = request._inventoryDTO.PriceInId,
             PatchId = request._inventoryDTO.PatchId,
-            ItemId = request._inventoryDTO.ItemId
+            ItemId = request._inventoryDTO.ItemId,
+            Trader = Trader,
+            TraderId = Trader?.Id
         };
 
 
@@ -51,11 +54,19 @@ public class AddToInventoryCommandHandeler : IRequestHandler<AddToInventoryComma
         var query = new GetItemQuery((int)inventory.ItemId);
         ItemDTO ItemDTO = await _mediator.Send(query);
         
+        TraderDTO traderDTO = new TraderDTO(){
+            Email = Trader?.Email,
+            Id = Trader.Id,
+            MobileNumber  = Trader?.MobileNumber,
+            Name = Trader?.Name
+        };
         return new InventoryDTO
         {
             Id = Inventory.Entity.Id,
             PatchId = Inventory.Entity.PatchId,
             ItemDTO = ItemDTO,
+            TraderId = inventory.TraderId,
+            Trader = traderDTO,
             ItemId = Inventory.Entity.ItemId,
             ExpirationDate = request._inventoryDTO.ExpirationDate,
             ManufacturingDate = request._inventoryDTO.ManufacturingDate,

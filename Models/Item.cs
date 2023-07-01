@@ -1,4 +1,3 @@
-namespace Models{
   public class Item {
     [System.ComponentModel.DataAnnotations.Key]
     public int Id{set;get;}
@@ -15,4 +14,3 @@ namespace Models{
     public ICollection<ItemImage>? itemImages{set;get;}
 
   }
-}

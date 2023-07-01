@@ -1,6 +1,5 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Models;
 
 [Route("inventory")]
   [ApiController]

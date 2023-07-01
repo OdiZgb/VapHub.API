@@ -1,5 +1,4 @@
 
-using Models;
 
 public class InventoryDTO{
   public int Id{set;get;}
@@ -7,6 +6,8 @@ public class InventoryDTO{
   public int? PatchId{set;get;}
   public int? NumberOfUnits{set;get;}
   public int? PriceInId{set;get;}
+  public int? TraderId{set;get;}
+  public TraderDTO? Trader{set;get;}
   public ItemDTO? ItemDTO{set;get;}
   public PriceInDTO? PriceInDTO{set;get;}
   public DateTime ArrivalDate{set;get;} = DateTime.Now;

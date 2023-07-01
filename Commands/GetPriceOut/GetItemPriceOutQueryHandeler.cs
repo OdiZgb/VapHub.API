@@ -1,7 +1,6 @@
 
 using Data;
 using MediatR;
-using Models;
 
 public class GetItemPriceOutQueryHandeler : IRequestHandler<GetItemPriceOutQuery, PriceOutDTO>
 {

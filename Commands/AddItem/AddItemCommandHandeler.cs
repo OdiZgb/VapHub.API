@@ -1,6 +1,5 @@
 using Data;
 using MediatR;
-using Models;
 
   public class AddItemCommandHandeler : IRequestHandler<AddItemCommand, ItemDTO>
   {

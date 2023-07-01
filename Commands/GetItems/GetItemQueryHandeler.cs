@@ -2,7 +2,6 @@
 using Data;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Models;
 
 public class GetItemQueryHandeler : IRequestHandler<GetItemQuery, ItemDTO>
 {

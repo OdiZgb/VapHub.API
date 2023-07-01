@@ -1,6 +1,4 @@
 
-using Models;
-
 public class Inventory{
   public int Id{set;get;}
   public int ItemId{set;get;}
@@ -13,5 +11,5 @@ public class Inventory{
   public DateTime ArrivalDate{set;get;} = DateTime.Now;
   public DateTime ManufacturingDate{set;get;}
   public DateTime ExpirationDate{set;get;}
-  public Trader Trader{set;get;}
+  public Trader? Trader{set;get;}
 }
