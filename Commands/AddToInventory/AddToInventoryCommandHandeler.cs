@@ -1,4 +1,5 @@
 
+using AutoMapper;
 using Data;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -6,12 +7,14 @@ using Microsoft.EntityFrameworkCore;
 public class AddToInventoryCommandHandeler : IRequestHandler<AddToInventoryCommand, InventoryDTO>
 {
     public AppDbContext _dbContext { set; get; }
-  private readonly IMediator _mediator;
-    public AddToInventoryCommandHandeler(AppDbContext dbContext,IMediator mediator)
+    private readonly IMapper _mapper;
+
+    private readonly IMediator _mediator;
+    public AddToInventoryCommandHandeler(AppDbContext dbContext, IMediator mediator, IMapper mapper)
     {
         _dbContext = dbContext;
-    _mediator = mediator;
-
+        _mediator = mediator;
+        _mapper = mapper;
     }
 
     public async Task<InventoryDTO> Handle(AddToInventoryCommand request, CancellationToken cancellationToken)
@@ -20,59 +23,12 @@ public class AddToInventoryCommandHandeler : IRequestHandler<AddToInventoryComma
         var PriceIn = _dbContext.PriceIn.FirstOrDefault(x => x.Id == request._inventoryDTO.PriceInId);
         var Trader = _dbContext.Traders.FirstOrDefault(x => x.Id == request._inventoryDTO.TraderId);
 
-        var inventory = new Inventory
-        {
-            ExpirationDate = request._inventoryDTO.ExpirationDate,
-            ManufacturingDate = request._inventoryDTO.ManufacturingDate,
-            Item = Item,
-            NumberOfUnits = request._inventoryDTO.NumberOfUnits,
-            ArrivalDate = request._inventoryDTO.ArrivalDate,
-            PriceIn = PriceIn,
-            PriceInId = request._inventoryDTO.PriceInId,
-            PatchId = request._inventoryDTO.PatchId,
-            ItemId = request._inventoryDTO.ItemId,
-            Trader = Trader,
-            TraderId = Trader?.Id
-        };
+        var inventory = _mapper.Map<Inventory>(request._inventoryDTO);
 
 
         var Inventory = _dbContext.Inventory.Add(inventory);
         await _dbContext.SaveChangesAsync(cancellationToken);
 
-        CategoryDTO categoryDTO = new CategoryDTO()
-        {
-            Id = Item?.Category?.Id,
-            Description = Item?.Category?.Description,
-            Name = Item?.Category?.Name
-        };
-        MarkaDTO markaDTO = new MarkaDTO()
-        {
-            Id = Item?.Marka?.Id,
-            Description = Item?.Marka?.Description,
-            Name = Item?.Marka?.Name
-        };
-        var query = new GetItemQuery((int)inventory.ItemId);
-        ItemDTO ItemDTO = await _mediator.Send(query);
-        
-        TraderDTO traderDTO = new TraderDTO(){
-            Email = Trader?.Email,
-            Id = Trader.Id,
-            MobileNumber  = Trader?.MobileNumber,
-            Name = Trader?.Name
-        };
-        return new InventoryDTO
-        {
-            Id = Inventory.Entity.Id,
-            PatchId = Inventory.Entity.PatchId,
-            ItemDTO = ItemDTO,
-            TraderId = inventory.TraderId,
-            Trader = traderDTO,
-            ItemId = Inventory.Entity.ItemId,
-            ExpirationDate = request._inventoryDTO.ExpirationDate,
-            ManufacturingDate = request._inventoryDTO.ManufacturingDate,
-            NumberOfUnits = request._inventoryDTO?.NumberOfUnits,
-            ArrivalDate = Inventory.Entity.ArrivalDate,
-            PriceInId = request?._inventoryDTO?.PriceInId
-        };
+        return _mapper.Map<InventoryDTO>(inventory);
     }
 }
