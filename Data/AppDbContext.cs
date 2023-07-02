@@ -15,6 +15,7 @@ namespace Data{
     public DbSet<Inventory> Inventory  { get; set; }
     public DbSet<CategoryProperty> CategoryProperty { get; set; }
     public DbSet<Trader> Traders { get; set; }
+    public DbSet<Salary> Salarys { get; set; }
     public DbSet<Employee> Employees { get; set; }
     public DbSet<Client> Clients { get; set; }
   }

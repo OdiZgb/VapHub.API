@@ -4,21 +4,21 @@ using Data;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-public class GetAllEmployeesQueryHandeler : IRequestHandler<GetAllEmployeesQuery, IEnumerable<EmployeeDTO>>
+public class GetAllClientsQueryHandeler : IRequestHandler<GetAllClientsQuery, IEnumerable<ClientDTO>>
 {
   private IMapper _mapper;
   public AppDbContext _dbContext { set; get; }
 
-  public GetAllEmployeesQueryHandeler(AppDbContext dbContext, IMapper mapper)
+  public GetAllClientsQueryHandeler(AppDbContext dbContext, IMapper mapper)
   {
     _mapper = mapper;
     _dbContext = dbContext;
   }
 
-    public async Task<IEnumerable<EmployeeDTO>> Handle(GetAllEmployeesQuery request, CancellationToken cancellationToken)
+    public async Task<IEnumerable<ClientDTO>> Handle(GetAllClientsQuery request, CancellationToken cancellationToken)
     {
 
-        List<Employee> employees = await _dbContext.Employees.ToListAsync();
-        return _mapper.Map<List<EmployeeDTO>>(employees);
+        List<Client> clients = await _dbContext.Clients.ToListAsync();
+        return _mapper.Map<List<ClientDTO>>(clients);
     }
 }

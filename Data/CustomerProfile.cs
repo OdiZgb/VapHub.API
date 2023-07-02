@@ -36,6 +36,9 @@ public class CustomerProfile : Profile
         CreateMap<ItemImage, ItemImageDTO>();
         CreateMap<ItemImageDTO, ItemImage>();
 
+        CreateMap<Salary, SalaryDTO>();
+        CreateMap<SalaryDTO, Salary>();
+
         CreateMap<Marka, MarkaDTO>();
         CreateMap<MarkaDTO, Marka>();
  
