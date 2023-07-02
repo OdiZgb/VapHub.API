@@ -20,6 +20,16 @@ public class CustomerProfile : Profile
         CreateMap<Inventory, InventoryDTO>();
         CreateMap<InventoryDTO, Inventory>();
 
+        CreateMap<Inventory, InventoryDTO>()
+            .ForMember(dest => dest.ItemDTO, opt => opt.MapFrom(src => src.Item))
+            .ForPath(dest => dest.ItemDTO.CategoryDTO, opt => opt.MapFrom(src => src.Item.Category))
+            .ForPath(dest => dest.ItemDTO.MarkaDTO, opt => opt.MapFrom(src => src.Item.Marka))
+            .ForPath(dest => dest.PriceInDTO, opt => opt.MapFrom(src => src.PriceIn))
+            .ForPath(dest => dest.TraderDTO, opt => opt.MapFrom(src => src.Trader))
+            .ForPath(dest => dest.EmployeeDTO, opt => opt.MapFrom(src => src.Employee));
+
+        CreateMap<InventoryDTO, Inventory>();
+
         CreateMap<Item, ItemDTO>();
         CreateMap<ItemDTO, Item>();
 

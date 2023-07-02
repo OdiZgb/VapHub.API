@@ -19,9 +19,10 @@ public class GetAllInventoryQueryHandeler : IRequestHandler<GetAllInventoryQuery
     public async Task<IEnumerable<InventoryDTO>> Handle(GetAllInventoryQuery request, CancellationToken cancellationToken)
     {
         List<Inventory> inventories = await _dbContext.Inventory
-            .Include(e => e.Item).ThenInclude(i => i.Category).Include(i => i.Item.Marka).Include(e => e.PriceIn)
-            .Include(e => e.Trader)
+            .Include(e => e.Item).Include(i => i.Item.Category).Include(i => i.Item.Marka).Include(e => e.PriceIn)
+            .Include(e => e.Trader).Include(x=>x.Employee)
             .ToListAsync();
-        return _mapper.Map<List<InventoryDTO>>(inventories);
+            var a =_mapper.Map<List<InventoryDTO>>(inventories);
+        return a;
     }
 }
