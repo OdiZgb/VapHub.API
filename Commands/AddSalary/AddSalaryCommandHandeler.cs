@@ -16,7 +16,13 @@ public class AddSalaryCommandHandeler : IRequestHandler<AddSalaryCommand, Salary
     {
         var salary = _mapper.Map<Salary>(request._salary);
 
+        var existSalary = this._dbContext.Salarys.FirstOrDefault(x=>x.EmployeeId == request._salary.EmployeeId);
+        if(existSalary != null){
+            existSalary.value = request._salary.value;
+        }
+        else{
         var salaryDB = _dbContext.Salarys.Add(salary);
+        }
         await _dbContext.SaveChangesAsync(cancellationToken);
  
         return _mapper.Map<SalaryDTO>(salary);
