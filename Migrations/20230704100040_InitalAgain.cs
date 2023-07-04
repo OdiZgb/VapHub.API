@@ -6,25 +6,25 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace VapHub.API.Migrations
 {
     /// <inheritdoc />
-    public partial class AddedSalaryToEmployeedddsfd : Migration
+    public partial class InitalAgain : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            // migrationBuilder.CreateTable(
-            //     name: "Category",
-            //     columns: table => new
-            //     {
-            //         Id = table.Column<int>(type: "INTEGER", nullable: false)
-            //             .Annotation("Sqlite:Autoincrement", true),
-            //         Name = table.Column<string>(type: "TEXT", nullable: false),
-            //         Description = table.Column<string>(type: "TEXT", nullable: false),
-            //         ImageURL = table.Column<string>(type: "TEXT", nullable: true)
-            //     },
-            //     constraints: table =>
-            //     {
-            //         table.PrimaryKey("PK_Category", x => x.Id);
-            //     });
+            migrationBuilder.CreateTable(
+                name: "Category",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Name = table.Column<string>(type: "TEXT", nullable: false),
+                    Description = table.Column<string>(type: "TEXT", nullable: false),
+                    ImageURL = table.Column<string>(type: "TEXT", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Category", x => x.Id);
+                });
 
             migrationBuilder.CreateTable(
                 name: "Clients",

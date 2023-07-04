@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace VapHub.API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230704002855_AddedSalaryToEmployeedddsfd")]
-    partial class AddedSalaryToEmployeedddsfd
+    [Migration("20230704100040_InitalAgain")]
+    partial class InitalAgain
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
