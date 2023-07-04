@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace VapHub.API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230625011035_addedinventorys")]
-    partial class addedinventorys
+    [Migration("20230704002855_AddedSalaryToEmployeedddsfd")]
+    partial class AddedSalaryToEmployeedddsfd
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -62,6 +62,97 @@ namespace VapHub.API.Migrations
                     b.ToTable("CategoryProperty");
                 });
 
+            modelBuilder.Entity("Client", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("MobileNumber")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Clients");
+                });
+
+            modelBuilder.Entity("Employee", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("MobileNumber")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Employees");
+                });
+
+            modelBuilder.Entity("ExpenseCategory", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ExpenseCategories");
+                });
+
+            modelBuilder.Entity("ExpenseItem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<double>("Cost")
+                        .HasColumnType("REAL");
+
+                    b.Property<int>("EmployeeId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("ExpenseCategoryId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("dateTime")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EmployeeId");
+
+                    b.HasIndex("ExpenseCategoryId");
+
+                    b.ToTable("ExpenseItems");
+                });
+
             modelBuilder.Entity("Inventory", b =>
                 {
                     b.Property<int>("Id")
@@ -70,6 +161,9 @@ namespace VapHub.API.Migrations
 
                     b.Property<DateTime>("ArrivalDate")
                         .HasColumnType("TEXT");
+
+                    b.Property<int?>("EmployeeId")
+                        .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("ExpirationDate")
                         .HasColumnType("TEXT");
@@ -80,69 +174,32 @@ namespace VapHub.API.Migrations
                     b.Property<DateTime>("ManufacturingDate")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("NumberOfUnits")
+                    b.Property<int?>("NumberOfUnits")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("PatchId")
+                    b.Property<int?>("PatchId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("PriceInId")
+                    b.Property<int?>("PriceInId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("TraderId")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("EmployeeId");
 
                     b.HasIndex("ItemId");
 
                     b.HasIndex("PriceInId");
 
+                    b.HasIndex("TraderId");
+
                     b.ToTable("Inventory");
                 });
 
-            modelBuilder.Entity("ItemImage", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("AlterText")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("ImageURL")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("ItemId")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ItemId");
-
-                    b.ToTable("ItemsImages");
-                });
-
-            modelBuilder.Entity("Marka", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("ImageURL")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Marka");
-                });
-
-            modelBuilder.Entity("Models.Item", b =>
+            modelBuilder.Entity("Item", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -184,6 +241,48 @@ namespace VapHub.API.Migrations
                     b.HasIndex("PriceOutId1");
 
                     b.ToTable("Items");
+                });
+
+            modelBuilder.Entity("ItemImage", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("AlterText")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ImageURL")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("ItemId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ItemId");
+
+                    b.ToTable("ItemsImages");
+                });
+
+            modelBuilder.Entity("Marka", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ImageURL")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Marka");
                 });
 
             modelBuilder.Entity("PriceIn", b =>
@@ -232,6 +331,44 @@ namespace VapHub.API.Migrations
                     b.ToTable("PriceOut");
                 });
 
+            modelBuilder.Entity("Salary", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("EmployeeId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<double>("value")
+                        .HasColumnType("REAL");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Salarys");
+                });
+
+            modelBuilder.Entity("Trader", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("MobileNumber")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Traders");
+                });
+
             modelBuilder.Entity("CategoryProperty", b =>
                 {
                     b.HasOne("Category", "Category")
@@ -243,9 +380,32 @@ namespace VapHub.API.Migrations
                     b.Navigation("Category");
                 });
 
+            modelBuilder.Entity("ExpenseItem", b =>
+                {
+                    b.HasOne("Employee", "Employee")
+                        .WithMany()
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("ExpenseCategory", "ExpenseCategory")
+                        .WithMany()
+                        .HasForeignKey("ExpenseCategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Employee");
+
+                    b.Navigation("ExpenseCategory");
+                });
+
             modelBuilder.Entity("Inventory", b =>
                 {
-                    b.HasOne("Models.Item", "Item")
+                    b.HasOne("Employee", "Employee")
+                        .WithMany()
+                        .HasForeignKey("EmployeeId");
+
+                    b.HasOne("Item", "Item")
                         .WithMany()
                         .HasForeignKey("ItemId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -253,25 +413,22 @@ namespace VapHub.API.Migrations
 
                     b.HasOne("PriceIn", "PriceIn")
                         .WithMany()
-                        .HasForeignKey("PriceInId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("PriceInId");
+
+                    b.HasOne("Trader", "Trader")
+                        .WithMany("Inventories")
+                        .HasForeignKey("TraderId");
+
+                    b.Navigation("Employee");
 
                     b.Navigation("Item");
 
                     b.Navigation("PriceIn");
+
+                    b.Navigation("Trader");
                 });
 
-            modelBuilder.Entity("ItemImage", b =>
-                {
-                    b.HasOne("Models.Item", null)
-                        .WithMany("itemImages")
-                        .HasForeignKey("ItemId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Models.Item", b =>
+            modelBuilder.Entity("Item", b =>
                 {
                     b.HasOne("Category", "Category")
                         .WithMany()
@@ -302,14 +459,28 @@ namespace VapHub.API.Migrations
                     b.Navigation("PriceOut");
                 });
 
+            modelBuilder.Entity("ItemImage", b =>
+                {
+                    b.HasOne("Item", null)
+                        .WithMany("itemImages")
+                        .HasForeignKey("ItemId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("Category", b =>
                 {
                     b.Navigation("CategoryProperties");
                 });
 
-            modelBuilder.Entity("Models.Item", b =>
+            modelBuilder.Entity("Item", b =>
                 {
                     b.Navigation("itemImages");
+                });
+
+            modelBuilder.Entity("Trader", b =>
+                {
+                    b.Navigation("Inventories");
                 });
 #pragma warning restore 612, 618
         }

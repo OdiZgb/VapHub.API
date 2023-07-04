@@ -5,7 +5,7 @@
 namespace VapHub.API.Migrations
 {
     /// <inheritdoc />
-    public partial class addedImagesToCategoriesAndMarkasasdxfagdasfrstqw : Migration
+    public partial class AddedSalaryToEmployeedddsfdى : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

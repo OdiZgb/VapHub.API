@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace VapHub.API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230704000357_AddedSalaryToEmployeed")]
-    partial class AddedSalaryToEmployeed
+    [Migration("20230704003546_AddedSalaryToEmployeedddsfdى")]
+    partial class AddedSalaryToEmployeedddsfdى
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -345,9 +345,6 @@ namespace VapHub.API.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("EmployeeId")
-                        .IsUnique();
-
                     b.ToTable("Salarys");
                 });
 
@@ -471,23 +468,9 @@ namespace VapHub.API.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Salary", b =>
-                {
-                    b.HasOne("Employee", null)
-                        .WithOne("Salary")
-                        .HasForeignKey("Salary", "EmployeeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("Category", b =>
                 {
                     b.Navigation("CategoryProperties");
-                });
-
-            modelBuilder.Entity("Employee", b =>
-                {
-                    b.Navigation("Salary");
                 });
 
             modelBuilder.Entity("Item", b =>

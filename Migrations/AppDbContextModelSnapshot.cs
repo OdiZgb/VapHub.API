@@ -342,9 +342,6 @@ namespace VapHub.API.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("EmployeeId")
-                        .IsUnique();
-
                     b.ToTable("Salarys");
                 });
 
@@ -468,23 +465,9 @@ namespace VapHub.API.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Salary", b =>
-                {
-                    b.HasOne("Employee", null)
-                        .WithOne("Salary")
-                        .HasForeignKey("Salary", "EmployeeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("Category", b =>
                 {
                     b.Navigation("CategoryProperties");
-                });
-
-            modelBuilder.Entity("Employee", b =>
-                {
-                    b.Navigation("Salary");
                 });
 
             modelBuilder.Entity("Item", b =>
