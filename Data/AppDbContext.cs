@@ -11,6 +11,8 @@ namespace Data{
     public DbSet<PriceOut> PriceOut { get; set; }
     public DbSet<ItemImage> ItemsImages { get; set; }
     public DbSet<Category> Category { get; set; }
+    public DbSet<ExpenseCategory> ExpenseCategories { get; set; }
+    public DbSet<ExpenseItem> ExpenseItems { get; set; }
     public DbSet<Marka> Marka { get; set; }
     public DbSet<Inventory> Inventory  { get; set; }
     public DbSet<CategoryProperty> CategoryProperty { get; set; }

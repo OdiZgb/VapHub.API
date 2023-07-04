@@ -3,6 +3,7 @@ using System;
 using Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace VapHub.API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230704000326_AddedSalaryToEmployee")]
+    partial class AddedSalaryToEmployee
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.5");
@@ -96,7 +99,15 @@ namespace VapHub.API.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<int?>("SalaryID")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("SalaryId")
+                        .HasColumnType("INTEGER");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("SalaryId");
 
                     b.ToTable("Employees");
                 });
@@ -342,9 +353,6 @@ namespace VapHub.API.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("EmployeeId")
-                        .IsUnique();
-
                     b.ToTable("Salarys");
                 });
 
@@ -378,6 +386,15 @@ namespace VapHub.API.Migrations
                         .IsRequired();
 
                     b.Navigation("Category");
+                });
+
+            modelBuilder.Entity("Employee", b =>
+                {
+                    b.HasOne("Salary", "Salary")
+                        .WithMany()
+                        .HasForeignKey("SalaryId");
+
+                    b.Navigation("Salary");
                 });
 
             modelBuilder.Entity("ExpenseItem", b =>
@@ -468,23 +485,9 @@ namespace VapHub.API.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Salary", b =>
-                {
-                    b.HasOne("Employee", null)
-                        .WithOne("Salary")
-                        .HasForeignKey("Salary", "EmployeeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("Category", b =>
                 {
                     b.Navigation("CategoryProperties");
-                });
-
-            modelBuilder.Entity("Employee", b =>
-                {
-                    b.Navigation("Salary");
                 });
 
             modelBuilder.Entity("Item", b =>
