@@ -34,4 +34,5 @@ public class ExpenseController : ControllerBase
         var Expenses = await _mediator.Send(query);
         return Ok(Expenses);
     }
+
 }
