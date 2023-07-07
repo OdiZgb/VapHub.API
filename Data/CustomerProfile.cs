@@ -2,8 +2,9 @@ using AutoMapper;
 
 public class CustomerProfile : Profile
 {
-    public CustomerProfile()
-    {
+    public CustomerProfile(){
+        CreateMap<Bill, BillDTO>().ReverseMap();
+        CreateMap<ClientDebt, ClientDebtDTO>().ReverseMap();
         CreateMap<CategoryProperty, CategoryPropertyDTO>().ReverseMap();
         CreateMap<Category, CategoryDTO>().ReverseMap();
         CreateMap<Client, ClientDTO>().ReverseMap();
