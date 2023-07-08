@@ -17,6 +17,7 @@ using Microsoft.AspNetCore.Mvc;
       var command = new AddClientCommand(clientDTO);
       var client = await _mediator.Send(command);
       return Ok(client);
+      
     }
  
     [HttpGet("getClient/{clientId}")]

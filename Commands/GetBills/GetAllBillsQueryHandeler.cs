@@ -18,7 +18,7 @@ public class GetAllBillQueryHandeler : IRequestHandler<GetAllBillsQuery, IEnumer
 
     public async Task<IEnumerable<BillDTO>> Handle(GetAllBillsQuery request, CancellationToken cancellationToken)
     {
-        List<Bill> bills = await _dbContext.Bills.Include(x=>x.ClientDebt).ToListAsync();
+        List<Bill> bills = await _dbContext.Bills.Include(x=>x.ClientDebt).Include(x=>x.ClientDebt.Client).ToListAsync();
             var a =_mapper.Map<List<BillDTO>>(bills);
         return a;
     }

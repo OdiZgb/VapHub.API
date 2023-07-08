@@ -20,6 +20,15 @@ using Microsoft.AspNetCore.Mvc;
     }
 
 
+    [HttpPut("completeDebt/{id}")]
+    public async Task<ActionResult<ClientDebtDTO>> completeDebt(int id)
+    {
+      var command = new CompleteDebtCommand(id);
+      var ClientDebtDTO = await _mediator.Send(command);
+      return Ok(ClientDebtDTO);
+    }
+
+
     
   [HttpGet("getAllBills")]
   public async Task<ActionResult<IEnumerable<BillDTO>>> getAllBill()
@@ -27,6 +36,14 @@ using Microsoft.AspNetCore.Mvc;
     var query = new GetAllBillsQuery();
     var AllBill = await _mediator.Send(query);
     return Ok(AllBill);
+  }
+
+  [HttpGet("getAllClientDebts")]
+  public async Task<ActionResult<IEnumerable<ClientDebtDTO>>> getAllClientDebts()
+  {
+    var query = new GetAllClientDebtsQuery();
+    var AllDebts = await _mediator.Send(query);
+    return Ok(AllDebts);
   }
 
   }

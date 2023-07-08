@@ -9,7 +9,6 @@ public class ClientDebt
     public bool DebtFree { set; get; }
     public DateTime DebtDate{set;get;}
     public DateTime? DebtFreeDate {set;get;}
-    public Employee Employee;
-    public Client Client;
-    public Bill? Bill;
+    public Employee Employee{set;get;}
+    public Client Client{set;get;}
 }

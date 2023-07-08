@@ -55,7 +55,6 @@ public class AddToBillCommandHandeler : IRequestHandler<AddToBillCommand, BillDT
             {
                 Bill.Entity.completed = false;
                 var clientDebt = new ClientDebt(){
-                    Bill = Bill.Entity,
                     BillId = Bill.Entity.Id,
                     Client = Bill.Entity.Client,
                     ClientId = Bill.Entity.Client.Id,
@@ -76,7 +75,6 @@ public class AddToBillCommandHandeler : IRequestHandler<AddToBillCommand, BillDT
              if(paiedPrice - request._billDTO.ExchangeRepaied > requierdPrice){
                 Bill.Entity.completed = false;
                 var clientDebt = new ClientDebt(){
-                    Bill = Bill.Entity,
                     BillId = Bill.Entity.Id,
                     Client = Bill.Entity?.Client,
                     ClientId = Bill.Entity.Client.Id,
