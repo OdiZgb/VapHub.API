@@ -9,4 +9,5 @@ public class ExpenseItem
     public ExpenseCategory? ExpenseCategory { get; set; }
     public Employee? Employee { get; set; }
     public DateTime dateTime { set; get; } = DateTime.Now;
+    public string? Notes { set; get; } // The added field
 }
