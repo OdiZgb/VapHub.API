@@ -4,7 +4,7 @@ using Data;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-public class AddToInventoryCommandHandeler : IRequestHandler<AddToInventoryCommand, InventoryDTO>
+public class AddToInventoryCommandHandeler : IRequestHandler<AddToInventoryCommand, List<InventoryDTO>>
 {
     public AppDbContext _dbContext { set; get; }
     private readonly IMapper _mapper;
@@ -17,18 +17,27 @@ public class AddToInventoryCommandHandeler : IRequestHandler<AddToInventoryComma
         _mapper = mapper;
     }
 
-    public async Task<InventoryDTO> Handle(AddToInventoryCommand request, CancellationToken cancellationToken)
+    public async Task<List<InventoryDTO>> Handle(AddToInventoryCommand request, CancellationToken cancellationToken)
     {
-        var Item = _dbContext.Items.Include(x => x.Category).Include(x => x.Marka).Include(x => x.PriceIn).FirstOrDefault(x => x.Id == request._inventoryDTO.ItemId);
-        var PriceIn = _dbContext.PriceIn.FirstOrDefault(x => x.Id == request._inventoryDTO.PriceInId);
-        var Trader = _dbContext.Traders.FirstOrDefault(x => x.Id == request._inventoryDTO.TraderId);
+        List<InventoryDTO> inventoryDTOs= new List<InventoryDTO>();
 
-        var inventory = _mapper.Map<Inventory>(request._inventoryDTO);
+        var Items = await _dbContext.Items.Include(x => x.Category).Include(x => x.Marka).Include(x => x.PriceIn).ToListAsync();
+        var Traders = await _dbContext.Traders.ToListAsync();
 
+        string intendedNewBarcode = ("" + (Int16.Parse(_dbContext.Inventory.ToList().MaxBy(x => x.Barcode)?.Barcode ?? "000") + 1)).PadLeft(3, '0');
 
-        var Inventory = _dbContext.Inventory.Add(inventory);
-        await _dbContext.SaveChangesAsync(cancellationToken);
+        foreach (var inv in request._inventoryDTOs)
+        {
+            var Item = Items.FirstOrDefault(x => x.Id == inv.ItemId);
+            var Trader = Traders.FirstOrDefault(x => x.Id == inv.TraderId);
+            
+            inv.Barcode = intendedNewBarcode;
 
-        return _mapper.Map<InventoryDTO>(inventory);
+            var inventory = await _dbContext.Inventory.AddAsync(_mapper.Map<Inventory>(inv));
+            await _dbContext.SaveChangesAsync(cancellationToken);
+
+            inventoryDTOs.Add(_mapper.Map<InventoryDTO>(inventory.Entity));
+        }
+        return inventoryDTOs;
     }
 }

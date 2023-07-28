@@ -4,6 +4,7 @@ public class InventoryDTO{
   public int Id{set;get;}
   public int ItemId{set;get;}
   public int? PatchId{set;get;}
+  public string? Barcode{set;get;}
   public int? NumberOfUnits{set;get;}
   public int? PriceInId{set;get;}
   public int? TraderId{set;get;}

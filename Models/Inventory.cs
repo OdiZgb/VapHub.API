@@ -4,6 +4,7 @@ public class Inventory{
   public int ItemId{set;get;}
   public int? NumberOfUnits{set;get;}
   public int? PatchId{set;get;}
+  public string? Barcode{set;get;}
   public int? PriceInId{set;get;}
   public Item? Item{set;get;}
   public int? TraderId {set;get;}

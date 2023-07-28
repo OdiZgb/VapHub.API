@@ -1,7 +1,8 @@
 using Data;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
-  public class AddItemCommandHandeler : IRequestHandler<AddItemCommand, ItemDTO>
+public class AddItemCommandHandeler : IRequestHandler<AddItemCommand, ItemDTO>
   {
     public AppDbContext _dbContext { set; get; }
     public AddItemCommandHandeler(AppDbContext dbContext)
@@ -11,12 +12,24 @@ using MediatR;
 
     public async Task<ItemDTO> Handle(AddItemCommand request, CancellationToken cancellationToken)
     {
-      Category category =  _dbContext.Category.FirstOrDefault(x=>x.Id==request._itemDTO.CategoryDTO.Id);
-      Marka marka =  _dbContext.Marka.FirstOrDefault(x=>x.Id==request._itemDTO.MarkaDTO.Id);
+      List<Item> items = await _dbContext.Items.ToListAsync();
+      Category category =  await _dbContext.Category.FirstOrDefaultAsync(x=>x.Id==request._itemDTO.CategoryDTO.Id);
+      Marka marka =  await _dbContext.Marka.FirstOrDefaultAsync(x=>x.Id==request._itemDTO.MarkaDTO.Id);
+      int greatesBarcode = 0;
+      foreach (var barcodeOfItem in items)
+      {
+        int id = Int16.Parse(barcodeOfItem.Barcode);
+        if(id >greatesBarcode){
+          greatesBarcode = id;
+        }
+      }
+      string intendedNewBarcode =  (""+(greatesBarcode + 1)).PadLeft(3,'0');
+
+     
       var item = new Item
       {
         Name = request._itemDTO.Name,
-        Barcode = request._itemDTO.Barcode,
+        Barcode = intendedNewBarcode,
         Category = category,
         Marka = marka
       };
@@ -29,7 +42,7 @@ using MediatR;
       {
         Id = item.Id,
         Name = item.Name,
-        Barcode = item.Barcode
+        Barcode = intendedNewBarcode
       };
     }
   }

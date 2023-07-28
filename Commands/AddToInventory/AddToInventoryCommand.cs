@@ -1,11 +1,11 @@
 using MediatR;
 
 
-  public class AddToInventoryCommand : IRequest<InventoryDTO>
+  public class AddToInventoryCommand : IRequest<List<InventoryDTO>>
   {
-    public InventoryDTO _inventoryDTO;
-    public AddToInventoryCommand(InventoryDTO inventoryDTO)
+    public List<InventoryDTO> _inventoryDTOs;
+    public AddToInventoryCommand(List<InventoryDTO> inventoryDTOs)
     {
-      _inventoryDTO = inventoryDTO;
+      _inventoryDTOs = inventoryDTOs;
     }
   }

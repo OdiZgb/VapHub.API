@@ -12,11 +12,11 @@ using Microsoft.AspNetCore.Mvc;
     }
 
     [HttpPost("addToInventory")]
-    public async Task<ActionResult<InventoryDTO>> addToInventory([FromBody] InventoryDTO inventoryDTO)
+    public async Task<ActionResult<List<InventoryDTO>>> addToInventory([FromBody] List<InventoryDTO> inventoryDTOs)
     {
-      var command = new AddToInventoryCommand(inventoryDTO);
-      var InventoryDTO = await _mediator.Send(command);
-      return Ok(InventoryDTO);
+      var command = new AddToInventoryCommand(inventoryDTOs);
+      var InventoryDTOs = await _mediator.Send(command);
+      return Ok(InventoryDTOs);
     }
 
     [HttpGet("getInventory/{itemID}")]
