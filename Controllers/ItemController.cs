@@ -21,6 +21,7 @@ public class ItemController : ControllerBase
     var item = await _mediator.Send(command);
     return Ok(item);
   }
+  
   [HttpPost("addItemImage")]
   public async Task<ActionResult<ItemImageDTO>> addItemImage([FromForm] ItemImageDTO itemImageDTO)
   {
@@ -29,6 +30,14 @@ public class ItemController : ControllerBase
     return Ok(itemImage);
   }
 
+  [HttpPut("editItem")]
+  public async Task<ActionResult<ItemDTO>> editItem([FromBody] ItemDTO itemDTO)
+  {
+    var command = new EditItemCommand(itemDTO);
+    var item = await _mediator.Send(command);
+    return Ok(item);
+  }
+  
   [HttpDelete("deleteItem/{id}")]
   public async Task<ActionResult<bool>> deleteItem(int id)
   {
