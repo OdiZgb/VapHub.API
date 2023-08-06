@@ -62,15 +62,14 @@ public class GetAllItemsQueryHandeler : IRequestHandler<GetAllItemsQuery, IEnume
                 CategoryDTO = categoryDTO,
                 MarkaDTO = markaDTO,
                 ItemsImageDTOs = itemImageDTO,
-                PriceInDTO = priceIn != null ? new PriceInDTO()
+                PriceInDTO = new PriceInDTO
                 {
-                    Id = priceIn.Id,
-                    Date = priceIn.Date,
-                    ExpirationDate = priceIn.ExpirationDate,
-                    ItemId = priceIn.ItemId,
-                    Price = priceIn.Price
-                } : null, // Or handle this situation in some other way
-
+                    Id = 0, // Set the appropriate value if necessary
+                    ItemId = 0, // Set the appropriate value if necessary
+                    Price = item.PriceIn?.Price ?? 0,
+                    Date = default, // Set the appropriate value if necessary
+                    ExpirationDate = default // Set the appropriate value if necessary
+                },
                 PriceOutDTO = new PriceOutDTO
                 {
                     Id = 0, // Set the appropriate value if necessary
