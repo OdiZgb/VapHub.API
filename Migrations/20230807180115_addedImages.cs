@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace VapHub.API.Migrations
 {
     /// <inheritdoc />
-    public partial class InitalAgain : Migration
+    public partial class addedImages : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -63,7 +63,7 @@ namespace VapHub.API.Migrations
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Name = table.Column<string>(type: "TEXT", nullable: false),
-                    Description = table.Column<string>(type: "TEXT", nullable: false)
+                    Description = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -132,6 +132,22 @@ namespace VapHub.API.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "ShipmentImage",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    barcode = table.Column<string>(type: "TEXT", nullable: true),
+                    InventoryId = table.Column<int>(type: "INTEGER", nullable: false),
+                    ImageURL = table.Column<string>(type: "TEXT", nullable: true),
+                    AlterText = table.Column<string>(type: "TEXT", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ShipmentImage", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Traders",
                 columns: table => new
                 {
@@ -167,6 +183,38 @@ namespace VapHub.API.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "ClientDebts",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    BillId = table.Column<int>(type: "INTEGER", nullable: true),
+                    ClientId = table.Column<int>(type: "INTEGER", nullable: false),
+                    EmployeeId = table.Column<int>(type: "INTEGER", nullable: false),
+                    DebtValue = table.Column<double>(type: "REAL", nullable: false),
+                    DebtPayed = table.Column<double>(type: "REAL", nullable: false),
+                    DebtFree = table.Column<bool>(type: "INTEGER", nullable: false),
+                    DebtDate = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    DebtFreeDate = table.Column<DateTime>(type: "TEXT", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ClientDebts", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ClientDebts_Clients_ClientId",
+                        column: x => x.ClientId,
+                        principalTable: "Clients",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ClientDebts_Employees_EmployeeId",
+                        column: x => x.EmployeeId,
+                        principalTable: "Employees",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "ExpenseItems",
                 columns: table => new
                 {
@@ -176,7 +224,8 @@ namespace VapHub.API.Migrations
                     Cost = table.Column<double>(type: "REAL", nullable: false),
                     ExpenseCategoryId = table.Column<int>(type: "INTEGER", nullable: false),
                     EmployeeId = table.Column<int>(type: "INTEGER", nullable: false),
-                    dateTime = table.Column<DateTime>(type: "TEXT", nullable: false)
+                    dateTime = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    Notes = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -196,6 +245,31 @@ namespace VapHub.API.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Bills",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    ClientId = table.Column<int>(type: "INTEGER", nullable: true),
+                    EmployeeId = table.Column<int>(type: "INTEGER", nullable: true),
+                    ClientDebtId = table.Column<int>(type: "INTEGER", nullable: true),
+                    RequierdPrice = table.Column<double>(type: "REAL", nullable: false),
+                    PaiedPrice = table.Column<double>(type: "REAL", nullable: false),
+                    ExchangeRepaied = table.Column<double>(type: "REAL", nullable: false),
+                    Time = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    ClientDebtId1 = table.Column<int>(type: "INTEGER", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Bills", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Bills_ClientDebts_ClientDebtId1",
+                        column: x => x.ClientDebtId1,
+                        principalTable: "ClientDebts",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Items",
                 columns: table => new
                 {
@@ -208,11 +282,17 @@ namespace VapHub.API.Migrations
                     CategoryId = table.Column<int>(type: "INTEGER", nullable: false),
                     MarkaId = table.Column<int>(type: "INTEGER", nullable: false),
                     PriceInId1 = table.Column<int>(type: "INTEGER", nullable: true),
-                    PriceOutId1 = table.Column<int>(type: "INTEGER", nullable: true)
+                    PriceOutId1 = table.Column<int>(type: "INTEGER", nullable: true),
+                    BillId = table.Column<int>(type: "INTEGER", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Items", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Items_Bills_BillId",
+                        column: x => x.BillId,
+                        principalTable: "Bills",
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Items_Category_CategoryId",
                         column: x => x.CategoryId,
@@ -246,6 +326,7 @@ namespace VapHub.API.Migrations
                     ItemId = table.Column<int>(type: "INTEGER", nullable: false),
                     NumberOfUnits = table.Column<int>(type: "INTEGER", nullable: true),
                     PatchId = table.Column<int>(type: "INTEGER", nullable: true),
+                    Barcode = table.Column<string>(type: "TEXT", nullable: true),
                     PriceInId = table.Column<int>(type: "INTEGER", nullable: true),
                     TraderId = table.Column<int>(type: "INTEGER", nullable: true),
                     EmployeeId = table.Column<int>(type: "INTEGER", nullable: true),
@@ -285,6 +366,7 @@ namespace VapHub.API.Migrations
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
+                    barcode = table.Column<string>(type: "TEXT", nullable: true),
                     ItemId = table.Column<int>(type: "INTEGER", nullable: false),
                     ImageURL = table.Column<string>(type: "TEXT", nullable: true),
                     AlterText = table.Column<string>(type: "TEXT", nullable: true)
@@ -301,9 +383,24 @@ namespace VapHub.API.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_Bills_ClientDebtId1",
+                table: "Bills",
+                column: "ClientDebtId1");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_CategoryProperty_CategoryId",
                 table: "CategoryProperty",
                 column: "CategoryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ClientDebts_ClientId",
+                table: "ClientDebts",
+                column: "ClientId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ClientDebts_EmployeeId",
+                table: "ClientDebts",
+                column: "EmployeeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ExpenseItems_EmployeeId",
@@ -334,6 +431,11 @@ namespace VapHub.API.Migrations
                 name: "IX_Inventory_TraderId",
                 table: "Inventory",
                 column: "TraderId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Items_BillId",
+                table: "Items",
+                column: "BillId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Items_CategoryId",
@@ -368,9 +470,6 @@ namespace VapHub.API.Migrations
                 name: "CategoryProperty");
 
             migrationBuilder.DropTable(
-                name: "Clients");
-
-            migrationBuilder.DropTable(
                 name: "ExpenseItems");
 
             migrationBuilder.DropTable(
@@ -383,16 +482,19 @@ namespace VapHub.API.Migrations
                 name: "Salarys");
 
             migrationBuilder.DropTable(
-                name: "ExpenseCategories");
+                name: "ShipmentImage");
 
             migrationBuilder.DropTable(
-                name: "Employees");
+                name: "ExpenseCategories");
 
             migrationBuilder.DropTable(
                 name: "Traders");
 
             migrationBuilder.DropTable(
                 name: "Items");
+
+            migrationBuilder.DropTable(
+                name: "Bills");
 
             migrationBuilder.DropTable(
                 name: "Category");
@@ -405,6 +507,15 @@ namespace VapHub.API.Migrations
 
             migrationBuilder.DropTable(
                 name: "PriceOut");
+
+            migrationBuilder.DropTable(
+                name: "ClientDebts");
+
+            migrationBuilder.DropTable(
+                name: "Clients");
+
+            migrationBuilder.DropTable(
+                name: "Employees");
         }
     }
 }

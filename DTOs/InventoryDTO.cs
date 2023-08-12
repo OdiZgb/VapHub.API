@@ -16,4 +16,5 @@ public class InventoryDTO{
   public DateTime ArrivalDate{set;get;} = DateTime.Now;
   public DateTime ManufacturingDate{set;get;}
   public DateTime ExpirationDate{set;get;}
+  public string? imagePath {set;get;} = "";
 }

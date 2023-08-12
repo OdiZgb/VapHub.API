@@ -11,14 +11,51 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace VapHub.API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230704100040_InitalAgain")]
-    partial class InitalAgain
+    [Migration("20230807222459_addedImagesasassww")]
+    partial class addedImagesasassww
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.5");
+
+            modelBuilder.Entity("Bill", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("ClientDebtId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("ClientDebtId1")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("ClientId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("EmployeeId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<double>("ExchangeRepaied")
+                        .HasColumnType("REAL");
+
+                    b.Property<double>("PaiedPrice")
+                        .HasColumnType("REAL");
+
+                    b.Property<double>("RequierdPrice")
+                        .HasColumnType("REAL");
+
+                    b.Property<DateTime>("Time")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClientDebtId1");
+
+                    b.ToTable("Bills");
+                });
 
             modelBuilder.Entity("Category", b =>
                 {
@@ -83,6 +120,45 @@ namespace VapHub.API.Migrations
                     b.ToTable("Clients");
                 });
 
+            modelBuilder.Entity("ClientDebt", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("BillId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("ClientId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("DebtDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("DebtFree")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime?>("DebtFreeDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<double>("DebtPayed")
+                        .HasColumnType("REAL");
+
+                    b.Property<double>("DebtValue")
+                        .HasColumnType("REAL");
+
+                    b.Property<int>("EmployeeId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClientId");
+
+                    b.HasIndex("EmployeeId");
+
+                    b.ToTable("ClientDebts");
+                });
+
             modelBuilder.Entity("Employee", b =>
                 {
                     b.Property<int>("Id")
@@ -111,7 +187,6 @@ namespace VapHub.API.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
@@ -141,6 +216,9 @@ namespace VapHub.API.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("Notes")
+                        .HasColumnType("TEXT");
+
                     b.Property<DateTime>("dateTime")
                         .HasColumnType("TEXT");
 
@@ -160,6 +238,9 @@ namespace VapHub.API.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("ArrivalDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Barcode")
                         .HasColumnType("TEXT");
 
                     b.Property<int?>("EmployeeId")
@@ -208,6 +289,9 @@ namespace VapHub.API.Migrations
                     b.Property<string>("Barcode")
                         .HasColumnType("TEXT");
 
+                    b.Property<int?>("BillId")
+                        .HasColumnType("INTEGER");
+
                     b.Property<int>("CategoryId")
                         .HasColumnType("INTEGER");
 
@@ -231,6 +315,8 @@ namespace VapHub.API.Migrations
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("BillId");
 
                     b.HasIndex("CategoryId");
 
@@ -348,6 +434,29 @@ namespace VapHub.API.Migrations
                     b.ToTable("Salarys");
                 });
 
+            modelBuilder.Entity("ShipmentImage", b =>
+                {
+                    b.Property<int?>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("AlterText")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ImageURL")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("InventoryId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("barcode")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ShipmentImage");
+                });
+
             modelBuilder.Entity("Trader", b =>
                 {
                     b.Property<int>("Id")
@@ -369,6 +478,15 @@ namespace VapHub.API.Migrations
                     b.ToTable("Traders");
                 });
 
+            modelBuilder.Entity("Bill", b =>
+                {
+                    b.HasOne("ClientDebt", "ClientDebt")
+                        .WithMany()
+                        .HasForeignKey("ClientDebtId1");
+
+                    b.Navigation("ClientDebt");
+                });
+
             modelBuilder.Entity("CategoryProperty", b =>
                 {
                     b.HasOne("Category", "Category")
@@ -380,6 +498,25 @@ namespace VapHub.API.Migrations
                     b.Navigation("Category");
                 });
 
+            modelBuilder.Entity("ClientDebt", b =>
+                {
+                    b.HasOne("Client", "Client")
+                        .WithMany()
+                        .HasForeignKey("ClientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Employee", "Employee")
+                        .WithMany()
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Client");
+
+                    b.Navigation("Employee");
+                });
+
             modelBuilder.Entity("ExpenseItem", b =>
                 {
                     b.HasOne("Employee", "Employee")
@@ -389,7 +526,7 @@ namespace VapHub.API.Migrations
                         .IsRequired();
 
                     b.HasOne("ExpenseCategory", "ExpenseCategory")
-                        .WithMany()
+                        .WithMany("expenseItems")
                         .HasForeignKey("ExpenseCategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -430,6 +567,10 @@ namespace VapHub.API.Migrations
 
             modelBuilder.Entity("Item", b =>
                 {
+                    b.HasOne("Bill", null)
+                        .WithMany("Items")
+                        .HasForeignKey("BillId");
+
                     b.HasOne("Category", "Category")
                         .WithMany()
                         .HasForeignKey("CategoryId")
@@ -468,9 +609,19 @@ namespace VapHub.API.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Bill", b =>
+                {
+                    b.Navigation("Items");
+                });
+
             modelBuilder.Entity("Category", b =>
                 {
                     b.Navigation("CategoryProperties");
+                });
+
+            modelBuilder.Entity("ExpenseCategory", b =>
+                {
+                    b.Navigation("expenseItems");
                 });
 
             modelBuilder.Entity("Item", b =>

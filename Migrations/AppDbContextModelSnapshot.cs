@@ -431,6 +431,29 @@ namespace VapHub.API.Migrations
                     b.ToTable("Salarys");
                 });
 
+            modelBuilder.Entity("ShipmentImage", b =>
+                {
+                    b.Property<int?>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("AlterText")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ImageURL")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("InventoryId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("barcode")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ShipmentImage");
+                });
+
             modelBuilder.Entity("Trader", b =>
                 {
                     b.Property<int>("Id")

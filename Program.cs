@@ -24,7 +24,7 @@ internal class Program
         builder.Services.AddMediatR(Assembly.GetExecutingAssembly());
 
         builder.Services.AddDbContext<AppDbContext>(options =>
-            options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
+            options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")).EnableSensitiveDataLogging());
 
         builder.Services.AddCors(options =>
         {

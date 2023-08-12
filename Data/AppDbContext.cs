@@ -16,6 +16,7 @@ namespace Data{
     public DbSet<Marka> Marka { get; set; }
     public DbSet<Inventory> Inventory  { get; set; }
     public DbSet<CategoryProperty> CategoryProperty { get; set; }
+    public DbSet<ShipmentImage> ShipmentImage { get; set; }
     public DbSet<Trader> Traders { get; set; }
     public DbSet<Salary> Salarys { get; set; }
     public DbSet<Employee> Employees { get; set; }

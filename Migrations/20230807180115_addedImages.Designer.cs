@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace VapHub.API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230724221601_asdadsdkkhk")]
-    partial class asdadsdkkhk
+    [Migration("20230807180115_addedImages")]
+    partial class addedImages
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -344,6 +344,9 @@ namespace VapHub.API.Migrations
                     b.Property<int>("ItemId")
                         .HasColumnType("INTEGER");
 
+                    b.Property<string>("barcode")
+                        .HasColumnType("TEXT");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ItemId");
@@ -432,6 +435,29 @@ namespace VapHub.API.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Salarys");
+                });
+
+            modelBuilder.Entity("ShipmentImage", b =>
+                {
+                    b.Property<int?>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("AlterText")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ImageURL")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("InventoryId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("barcode")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ShipmentImage");
                 });
 
             modelBuilder.Entity("Trader", b =>

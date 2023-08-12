@@ -35,11 +35,34 @@ using Microsoft.AspNetCore.Mvc;
     return Ok(AllInventory);
   }
 
+  [HttpGet("getAllInventoryByBarcode/{barcode}")]
+  public async Task<ActionResult<IEnumerable<InventoryDTO>>> getAllInventoryByBarcode(string barcode)
+  {
+    var query = new GetAllInventoryQueryByBarcodeQuery(barcode);
+    var AllInventory = await _mediator.Send(query);
+    return Ok(AllInventory);
+  }
+
+  [HttpGet("getInventoryImage/{barcode}")]
+  public async Task<ActionResult<string>> getInventoryImage(string barcode)
+  {
+    var query = new getInventoryImageQuery(barcode);
+    var image = await _mediator.Send(query);
+    return Ok(image);
+  }
+
   [HttpGet("getCurrentQuantites")]
   public async Task<ActionResult<IEnumerable<ItemQuantityDTO>>> getCurrentQuantites()
   {
     var query = new GetCurrentQuantitesQuery();
     var CurrentQuantites = await _mediator.Send(query);
     return Ok(CurrentQuantites);
+  }
+  [HttpPost("addShipmentImage")]
+  public async Task<ActionResult<ItemImageDTO>> addItemImage([FromForm] ShipmentImageDTO shipmentImageDTO)
+  {
+    var command = new AddShipmentImageCommand(shipmentImageDTO);
+    var shipmentImage = await _mediator.Send(command);
+    return Ok(shipmentImage);
   }
   }
