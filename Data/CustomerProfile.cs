@@ -18,6 +18,7 @@ public class CustomerProfile : Profile
         CreateMap<Trader, TraderDTO>().ReverseMap();
         CreateMap<ExpenseCategory, ExpenseCategoryDTO>().ReverseMap();
         CreateMap<ExpenseItem, ExpenseItemDTO>().ReverseMap();
+        CreateMap<User, UserDTO>().ReverseMap();
 
         // For complex nested mapping
         CreateMap<Inventory, InventoryDTO>()

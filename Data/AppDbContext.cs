@@ -23,7 +23,7 @@ namespace Data{
     public DbSet<Client> Clients { get; set; }
     public DbSet<Bill> Bills { get; set; }
     public DbSet<ClientDebt> ClientDebts { get; set; }
-    
+    public DbSet<User> Users { get; set; }
 
   }
 }
