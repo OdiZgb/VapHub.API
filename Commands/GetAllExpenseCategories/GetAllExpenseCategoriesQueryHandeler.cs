@@ -19,7 +19,7 @@ public class GetAllExpenseCategoriesQueryHandeler : IRequestHandler<GetAllExpens
     public async Task<IEnumerable<ExpenseCategoryDTO>> Handle(GetAllExpenseCategoriesQuery request, CancellationToken cancellationToken)
     {
         List<ExpenseCategory> expenseCategories = await _dbContext.ExpenseCategories
-            .Include(e => e.expenseItems).ThenInclude(x=>x.Employee)
+            .Include(e => e.expenseItems).ThenInclude(x=>x.Employee).ThenInclude(x=>x.User)
             .ToListAsync();
             var expenseCategoriesDTO =_mapper.Map<List<ExpenseCategoryDTO>>(expenseCategories);
         return (IEnumerable<ExpenseCategoryDTO>)expenseCategoriesDTO;

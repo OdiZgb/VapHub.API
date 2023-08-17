@@ -23,7 +23,7 @@ public class AddToInventoryCommandHandeler : IRequestHandler<AddToInventoryComma
 
         var Items = await _dbContext.Items.Include(x => x.Category).Include(x => x.Marka).Include(x => x.PriceIn).ToListAsync();
         var Traders = await _dbContext.Traders.ToListAsync();
-        var Employees = await _dbContext.Employees.ToListAsync();
+        var Employees = await _dbContext.Employees.Include(x=>x.User).ToListAsync();
 
         string intendedNewBarcode = ("" + (Int16.Parse(_dbContext.Inventory.ToList().MaxBy(x => x.Barcode)?.Barcode ?? "000") + 1)).PadLeft(3, '0');
 

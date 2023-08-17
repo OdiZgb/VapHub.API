@@ -9,4 +9,5 @@ public class UserDTO{
   public bool IsEmployee{set;get;}
   public bool IsClient{set;get;}
   public string? token{set;get;}
+  public EmployeeDTO Employee{set;get;}
 }

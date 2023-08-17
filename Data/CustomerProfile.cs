@@ -8,7 +8,9 @@ public class CustomerProfile : Profile
         CreateMap<CategoryProperty, CategoryPropertyDTO>().ReverseMap();
         CreateMap<Category, CategoryDTO>().ReverseMap();
         CreateMap<Client, ClientDTO>().ReverseMap();
-        CreateMap<EmployeeDTO, Employee>().ReverseMap();
+        CreateMap<EmployeeDTO, Employee>()
+            .ForMember(dest => dest.User, opt => opt.MapFrom(src => src.User))
+        .ReverseMap();
         CreateMap<Inventory, InventoryDTO>().ReverseMap();
         CreateMap<Item, ItemDTO>().ReverseMap();
         CreateMap<ItemImage, ItemImageDTO>().ReverseMap();

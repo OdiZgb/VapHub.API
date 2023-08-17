@@ -18,7 +18,7 @@ public class GetAllEmployeesQueryHandeler : IRequestHandler<GetAllEmployeesQuery
     public async Task<IEnumerable<EmployeeDTO>> Handle(GetAllEmployeesQuery request, CancellationToken cancellationToken)
     {
 
-        List<Employee> employees = await _dbContext.Employees.ToListAsync();
+        List<Employee> employees = await _dbContext.Employees.Include(x=>x.User).ToListAsync();
         return _mapper.Map<List<EmployeeDTO>>(employees);
     }
 }

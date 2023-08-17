@@ -20,7 +20,9 @@ public class getInventoryImageQueryHandeler : IRequestHandler<getInventoryImageQ
     {
  
         var imagePath =await this._dbContext.ShipmentImage.FirstOrDefaultAsync(x=>x.barcode==request._barcode);
-   
+            if(imagePath==null || imagePath.ImageURL == null){
+                return null;
+            }
         return imagePath.ImageURL;
     }
 }
