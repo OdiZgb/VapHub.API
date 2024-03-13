@@ -22,7 +22,7 @@ public class LoginCommandHandeler : IRequestHandler<LoginCommand, UserDTO>
     {
 
         var user = _dbContext.Users.FirstOrDefault(x => x.Name == request._userDTO.Name || x.Email == request._userDTO.Email);
-        if (user == null || user.Password != request._userDTO.Password)
+        if (user == null || user.Password != request._userDTO.Password || user.IsEmployee ==false)
         {
             return null;
         }

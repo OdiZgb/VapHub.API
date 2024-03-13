@@ -19,7 +19,7 @@ namespace Data{
     public DbSet<ShipmentImage> ShipmentImage { get; set; }
     public DbSet<Trader> Traders { get; set; }
     public DbSet<Salary> Salarys { get; set; }
-    public DbSet<Employee> Employees { get; set; }
+    public DbSet<Employee>? Employees { get; set; }
     public DbSet<Client> Clients { get; set; }
     public DbSet<Bill> Bills { get; set; }
     public DbSet<ClientDebt> ClientDebts { get; set; }
