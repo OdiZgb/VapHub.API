@@ -19,4 +19,5 @@ public class HistoryOfCashBill
     public double? RequierdPrice {set;get;}
     public double? ClientCashPayed {set;get;}
     public double? ClientRecived {set;get;}
+    public int? SoftDeleted {set;get;}
 }

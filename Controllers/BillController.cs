@@ -1,3 +1,4 @@
+using Commands.deleteItem;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -46,4 +47,11 @@ using Microsoft.AspNetCore.Mvc;
     return Ok(AllDebts);
   }
 
+  [HttpDelete("DeleteCashBill/{id}")]
+  public async Task<ActionResult<bool>> DeleteCashBill(int id)
+  {
+    var command = new DeleteCashBillCommand(id);
+    var DeleteCashBill = await _mediator.Send(command);
+    return Ok("deleted.");
+  }
   }

@@ -19,6 +19,13 @@ public class GetCashQueryHandeler : IRequestHandler<GetCashQuery, IEnumerable<Hi
     {
 
         List<HistoryOfCashBill> HistoryOfCashBill = await _dbContext.HistoryOfCashBill.ToListAsync();
-        return HistoryOfCashBill;
+        List<HistoryOfCashBill> HistoryOfCashBillReady = new List<HistoryOfCashBill>();
+        foreach (var item in HistoryOfCashBill)
+        {
+          if(item.SoftDeleted!=1){
+            HistoryOfCashBillReady.Add(item);
+          }
+        }
+        return HistoryOfCashBillReady;
     }
 }
