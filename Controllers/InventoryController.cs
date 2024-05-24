@@ -58,6 +58,13 @@ using Microsoft.AspNetCore.Mvc;
     var CurrentQuantites = await _mediator.Send(query);
     return Ok(CurrentQuantites);
   }
+    [HttpGet("GetCash")]
+  public async Task<ActionResult<IEnumerable<HistoryOfCashBill>>> GetCash()
+  {
+    var query = new GetCashQuery();
+    var cash = await _mediator.Send(query);
+    return Ok(cash);
+  }
   [HttpPost("addShipmentImage")]
   public async Task<ActionResult<ItemImageDTO>> addItemImage([FromForm] ShipmentImageDTO shipmentImageDTO)
   {

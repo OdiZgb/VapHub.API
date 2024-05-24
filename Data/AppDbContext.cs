@@ -7,6 +7,7 @@ namespace Data{
     {
     }
     public DbSet<Item> Items { get; set; }
+    public DbSet<ParentChildItem> ParentChildItems { get; set; }
     public DbSet<PriceIn> PriceIn { get; set; }
     public DbSet<PriceOut> PriceOut { get; set; }
     public DbSet<ItemImage> ItemsImages { get; set; }
@@ -15,6 +16,7 @@ namespace Data{
     public DbSet<ExpenseItem> ExpenseItems { get; set; }
     public DbSet<Marka> Marka { get; set; }
     public DbSet<Inventory> Inventory  { get; set; }
+    public DbSet<HistoryOfCashBill> HistoryOfCashBill  { get; set; }
     public DbSet<CategoryProperty> CategoryProperty { get; set; }
     public DbSet<ShipmentImage> ShipmentImage { get; set; }
     public DbSet<Trader> Traders { get; set; }

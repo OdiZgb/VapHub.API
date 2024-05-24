@@ -3,6 +3,7 @@ using System;
 using Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace VapHub.API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240520232156_ParentChildItem")]
+    partial class ParentChildItem
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.10");
@@ -223,71 +226,6 @@ namespace VapHub.API.Migrations
                     b.ToTable("ExpenseItems");
                 });
 
-            modelBuilder.Entity("HistoryOfCashBill", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<double?>("ClientCashPayed")
-                        .HasColumnType("REAL");
-
-                    b.Property<int?>("ClientId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("ClientName")
-                        .HasColumnType("TEXT");
-
-                    b.Property<double?>("ClientRecived")
-                        .HasColumnType("REAL");
-
-                    b.Property<int?>("EmployeeId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("EmployeeName")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int?>("InventoryId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int?>("InventoryName")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("ItemBarcode")
-                        .HasColumnType("TEXT");
-
-                    b.Property<double?>("ItemCostIn")
-                        .HasColumnType("REAL");
-
-                    b.Property<double?>("ItemCostOut")
-                        .HasColumnType("REAL");
-
-                    b.Property<string>("ItemId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("ItemName")
-                        .HasColumnType("TEXT");
-
-                    b.Property<double?>("RequierdPrice")
-                        .HasColumnType("REAL");
-
-                    b.Property<int?>("TraderId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("TraderName")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("barcode")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int?>("billId")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("HistoryOfCashBill");
-                });
-
             modelBuilder.Entity("Inventory", b =>
                 {
                     b.Property<int>("Id")
@@ -435,9 +373,6 @@ namespace VapHub.API.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("ChildeItemId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("NumberOfChildren")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("ParentItemId")

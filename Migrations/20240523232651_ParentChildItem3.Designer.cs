@@ -3,6 +3,7 @@ using System;
 using Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace VapHub.API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240523232651_ParentChildItem3")]
+    partial class ParentChildItem3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.10");
@@ -229,37 +232,37 @@ namespace VapHub.API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<double?>("ClientCashPayed")
+                    b.Property<double>("ClientCashPayed")
                         .HasColumnType("REAL");
 
-                    b.Property<int?>("ClientId")
+                    b.Property<int>("ClientId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("ClientName")
-                        .HasColumnType("TEXT");
+                    b.Property<int>("ClientName")
+                        .HasColumnType("INTEGER");
 
-                    b.Property<double?>("ClientRecived")
+                    b.Property<double>("ClientRecived")
                         .HasColumnType("REAL");
 
-                    b.Property<int?>("EmployeeId")
+                    b.Property<int>("EmployeeId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("EmployeeName")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int?>("InventoryId")
+                    b.Property<int>("EmployeeName")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("InventoryName")
+                    b.Property<int>("InventoryId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("InventoryName")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("ItemBarcode")
                         .HasColumnType("TEXT");
 
-                    b.Property<double?>("ItemCostIn")
+                    b.Property<double>("ItemCostIn")
                         .HasColumnType("REAL");
 
-                    b.Property<double?>("ItemCostOut")
+                    b.Property<double>("ItemCostOut")
                         .HasColumnType("REAL");
 
                     b.Property<string>("ItemId")
@@ -268,22 +271,18 @@ namespace VapHub.API.Migrations
                     b.Property<string>("ItemName")
                         .HasColumnType("TEXT");
 
-                    b.Property<double?>("RequierdPrice")
+                    b.Property<double>("RequierdPrice")
                         .HasColumnType("REAL");
-
-                    b.Property<int?>("TraderId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("TraderName")
-                        .HasColumnType("TEXT");
 
                     b.Property<string>("barcode")
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("billId")
+                    b.Property<int>("billId")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("billId");
 
                     b.ToTable("HistoryOfCashBill");
                 });
@@ -658,6 +657,17 @@ namespace VapHub.API.Migrations
                     b.Navigation("Employee");
 
                     b.Navigation("ExpenseCategory");
+                });
+
+            modelBuilder.Entity("HistoryOfCashBill", b =>
+                {
+                    b.HasOne("Bill", "bill")
+                        .WithMany()
+                        .HasForeignKey("billId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("bill");
                 });
 
             modelBuilder.Entity("Inventory", b =>

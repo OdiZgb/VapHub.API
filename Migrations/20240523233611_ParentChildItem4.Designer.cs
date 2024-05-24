@@ -3,6 +3,7 @@ using System;
 using Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace VapHub.API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240523233611_ParentChildItem4")]
+    partial class ParentChildItem4
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.10");
@@ -235,8 +238,8 @@ namespace VapHub.API.Migrations
                     b.Property<int?>("ClientId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("ClientName")
-                        .HasColumnType("TEXT");
+                    b.Property<int?>("ClientName")
+                        .HasColumnType("INTEGER");
 
                     b.Property<double?>("ClientRecived")
                         .HasColumnType("REAL");
@@ -244,8 +247,8 @@ namespace VapHub.API.Migrations
                     b.Property<int?>("EmployeeId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("EmployeeName")
-                        .HasColumnType("TEXT");
+                    b.Property<int?>("EmployeeName")
+                        .HasColumnType("INTEGER");
 
                     b.Property<int?>("InventoryId")
                         .HasColumnType("INTEGER");
@@ -270,12 +273,6 @@ namespace VapHub.API.Migrations
 
                     b.Property<double?>("RequierdPrice")
                         .HasColumnType("REAL");
-
-                    b.Property<int?>("TraderId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("TraderName")
-                        .HasColumnType("TEXT");
 
                     b.Property<string>("barcode")
                         .HasColumnType("TEXT");
