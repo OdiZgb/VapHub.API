@@ -65,6 +65,13 @@ using Microsoft.AspNetCore.Mvc;
     var cash = await _mediator.Send(query);
     return Ok(cash);
   }
+      [HttpGet("GetDeletedCash")]
+  public async Task<ActionResult<IEnumerable<HistoryOfCashBill>>> GetDeletedCash()
+  {
+    var query = new GetDeletedCashQuery();
+    var cash = await _mediator.Send(query);
+    return Ok(cash);
+  }
   [HttpPost("addShipmentImage")]
   public async Task<ActionResult<ItemImageDTO>> addItemImage([FromForm] ShipmentImageDTO shipmentImageDTO)
   {
