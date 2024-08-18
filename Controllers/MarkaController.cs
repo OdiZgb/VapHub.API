@@ -1,4 +1,5 @@
 
+using Commands.deleteItem;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -26,5 +27,13 @@ public class MarkaController : ControllerBase
     var query = new GetAllMarkasQuery();
     var markas = await _mediator.Send(query);
     return Ok(markas);
+  }
+  
+  [HttpDelete("deleteMarka/{id}")]
+  public async Task<ActionResult<bool>> deleteMarka(int id)
+  {
+    var command = new DeleteMarkaCommand(id);
+    var marka = await _mediator.Send(command);
+    return Ok("deleted.");
   }
 }
