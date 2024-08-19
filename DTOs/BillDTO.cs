@@ -7,6 +7,7 @@ public class BillDTO{
     public double PaiedPrice {set;get;}
     public double ExchangeRepaied {set;get;}
     public bool completed = false;
+    public double discount = 0;
     public DateTime Time {set;get;}
     public EmployeeDTO? Employee;
     public ClientDTO? Client;

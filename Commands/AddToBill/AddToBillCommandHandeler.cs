@@ -88,6 +88,7 @@ public async Task<BillDTO> Handle(AddToBillCommand request, CancellationToken ca
     bill.RequierdPrice = requiredPrice;
     bill.ExchangeRepaied = request._billDTO.ExchangeRepaied;
     bill.Items = items;
+    bill.discount = request._billDTO.discount;
     bill.PaiedPrice = paidPrice;
     bill.Time = DateTime.Now;
     bill.completed = true;

@@ -7,6 +7,8 @@ public class Bill{
     public double PaiedPrice {set;get;}
     public double ExchangeRepaied {set;get;}
     public bool completed = false;
+
+    public double discount {set;get;}= 0;
     public DateTime Time {set;get;}
     public Employee? Employee;
     public Client? Client;
