@@ -1,82 +1,96 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 [Route("inventory")]
-  [ApiController]
-  public class InventoryController : ControllerBase
-  {
+[ApiController]
+public class InventoryController : ControllerBase
+{
     private readonly IMediator _mediator;
     public InventoryController(IMediator mediator)
     {
-      _mediator = mediator;
+        _mediator = mediator;
     }
 
     [HttpPost("addToInventory")]
-    public async Task<ActionResult<List<InventoryDTO>>> addToInventory([FromBody] List<InventoryDTO> inventoryDTOs)
+    public async Task<ActionResult<List<InventoryDTO>>> AddToInventory([FromBody] List<InventoryDTO> inventoryDTOs)
     {
-      var command = new AddToInventoryCommand(inventoryDTOs);
-      var InventoryDTOs = await _mediator.Send(command);
-      return Ok(InventoryDTOs);
+        var command = new AddToInventoryCommand(inventoryDTOs);
+        var inventoryDTOsResult = await _mediator.Send(command);
+        return Ok(inventoryDTOsResult);
     }
 
     [HttpGet("getInventory/{itemID}")]
-    public async Task<ActionResult<InventoryDTO>> getInventory(int itemID)
+    public async Task<ActionResult<InventoryDTO>> GetInventory(int itemID)
     {
-      var query = new GetInventoryQuery(itemID);
-      var inventoryDTO = await _mediator.Send(query);
-      return Ok(inventoryDTO);
+        var query = new GetInventoryQuery(itemID);
+        var inventoryDTO = await _mediator.Send(query);
+        return Ok(inventoryDTO);
     }
-    
-  [HttpGet("getAllInventory")]
-  public async Task<ActionResult<IEnumerable<InventoryDTO>>> getAllInventory()
-  {
-    var query = new GetAllInventoryQuery();
-    var AllInventory = await _mediator.Send(query);
-    return Ok(AllInventory);
-  }
 
-  [HttpGet("getAllInventoryByBarcode/{barcode}")]
-  public async Task<ActionResult<IEnumerable<InventoryDTO>>> getAllInventoryByBarcode(string barcode)
-  {
-    var query = new GetAllInventoryQueryByBarcodeQuery(barcode);
-    var AllInventory = await _mediator.Send(query);
-    return Ok(AllInventory);
-  }
+    [HttpGet("getAllInventory")]
+    public async Task<ActionResult<IEnumerable<InventoryDTO>>> GetAllInventory()
+    {
+        var query = new GetAllInventoryQuery();
+        var allInventory = await _mediator.Send(query);
+        return Ok(allInventory);
+    }
 
-  [HttpGet("getInventoryImage/{barcode}")]
-  public async Task<ActionResult<string>> getInventoryImage(string barcode)
-  {
-    var query = new getInventoryImageQuery(barcode);
-    var image = await _mediator.Send(query);
-    return Ok(image);
-  }
+    [HttpGet("getAllInventoryByBarcode/{barcode}")]
+    public async Task<ActionResult<IEnumerable<InventoryDTO>>> GetAllInventoryByBarcode(string barcode)
+    {
+        var query = new GetAllInventoryQueryByBarcodeQuery(barcode);
+        var allInventory = await _mediator.Send(query);
+        return Ok(allInventory);
+    }
 
-  [HttpGet("getCurrentQuantites")]
-  public async Task<ActionResult<IEnumerable<ItemQuantityDTO>>> getCurrentQuantites()
-  {
-    var query = new GetCurrentQuantitesQuery();
-    var CurrentQuantites = await _mediator.Send(query);
-    return Ok(CurrentQuantites);
-  }
+    [HttpGet("getInventoryImage/{barcode}")]
+    public async Task<ActionResult<string>> GetInventoryImage(string barcode)
+    {
+        var query = new getInventoryImageQuery(barcode);
+        var image = await _mediator.Send(query);
+        return Ok(image);
+    }
+
+    [HttpGet("getCurrentQuantites")]
+    public async Task<ActionResult<IEnumerable<ItemQuantityDTO>>> GetCurrentQuantites()
+    {
+        var query = new GetCurrentQuantitesQuery();
+        var currentQuantites = await _mediator.Send(query);
+        return Ok(currentQuantites);
+    }
+
     [HttpGet("GetCash")]
-  public async Task<ActionResult<IEnumerable<HistoryOfCashBill>>> GetCash()
-  {
-    var query = new GetCashQuery();
-    var cash = await _mediator.Send(query);
-    return Ok(cash);
-  }
-      [HttpGet("GetDeletedCash")]
-  public async Task<ActionResult<IEnumerable<HistoryOfCashBill>>> GetDeletedCash()
-  {
-    var query = new GetDeletedCashQuery();
-    var cash = await _mediator.Send(query);
-    return Ok(cash);
-  }
-  [HttpPost("addShipmentImage")]
-  public async Task<ActionResult<ItemImageDTO>> addItemImage([FromForm] ShipmentImageDTO shipmentImageDTO)
-  {
-    var command = new AddShipmentImageCommand(shipmentImageDTO);
-    var shipmentImage = await _mediator.Send(command);
-    return Ok(shipmentImage);
-  }
-  }
+    public async Task<ActionResult<IEnumerable<HistoryOfCashBill>>> GetCash()
+    {
+        var query = new GetCashQuery();
+        var cash = await _mediator.Send(query);
+        return Ok(cash);
+    }
+
+    [HttpGet("GetDeletedCash")]
+    public async Task<ActionResult<IEnumerable<HistoryOfCashBill>>> GetDeletedCash()
+    {
+        var query = new GetDeletedCashQuery();
+        var cash = await _mediator.Send(query);
+        return Ok(cash);
+    }
+
+    [HttpPost("addShipmentImage")]
+    public async Task<ActionResult<ItemImageDTO>> AddShipmentImage([FromForm] ShipmentImageDTO shipmentImageDTO)
+    {
+        var command = new AddShipmentImageCommand(shipmentImageDTO);
+        var shipmentImage = await _mediator.Send(command);
+        return Ok(shipmentImage);
+    }
+
+    // New method to edit an existing inventory item by ID
+    [HttpPut("editInventory/{id}")]
+    public async Task<ActionResult<InventoryDTO>> EditInventory(int id, [FromBody] InventoryDTO inventoryDTO)
+    {
+        var command = new EditInventoryCommand(id, inventoryDTO);
+        var updatedInventory = await _mediator.Send(command);
+        return Ok(updatedInventory);
+    }
+}
