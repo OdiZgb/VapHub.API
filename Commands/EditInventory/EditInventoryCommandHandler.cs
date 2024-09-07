@@ -34,14 +34,9 @@ public class EditInventoryCommandHandler : IRequestHandler<EditInventoryCommand,
 
         // Update the inventory record with the new values
         inventory.ArrivalDate = request.InventoryDTO.ArrivalDate;
-        inventory.Barcode = request.InventoryDTO.Barcode;
-        inventory.EmployeeId = request.InventoryDTO.EmployeeId;
         inventory.ExpirationDate = request.InventoryDTO.ExpirationDate;
-        inventory.ItemId = request.InventoryDTO.ItemId;
         inventory.ManufacturingDate = request.InventoryDTO.ManufacturingDate;
         inventory.NumberOfUnits = request.InventoryDTO.NumberOfUnits;
-        inventory.PatchId = request.InventoryDTO.PatchId;
-        inventory.TraderId = request.InventoryDTO.TraderId;
 
         // Save changes to the database
         await _dbContext.SaveChangesAsync(cancellationToken);

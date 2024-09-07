@@ -85,12 +85,12 @@ public class InventoryController : ControllerBase
         return Ok(shipmentImage);
     }
 
-    // New method to edit an existing inventory item by ID
-    [HttpPut("editInventory/{id}")]
-    public async Task<ActionResult<InventoryDTO>> EditInventory(int id, [FromBody] InventoryDTO inventoryDTO)
-    {
-        var command = new EditInventoryCommand(id, inventoryDTO);
-        var updatedInventory = await _mediator.Send(command);
-        return Ok(updatedInventory);
-    }
+[HttpPut("editInventoryQuantity/{id}")]
+public async Task<ActionResult<InventoryDTO>> EditInventoryQuantity(int id, [FromBody] UpdateInventoryQuantityDTO quantityDTO)
+{
+    var command = new EditInventoryQuantityCommand(id, quantityDTO);
+    var updatedInventory = await _mediator.Send(command);
+    return Ok(updatedInventory);
+}
+
 }

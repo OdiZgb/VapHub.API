@@ -5,5 +5,5 @@ public class CategoryDTO{
   public string?  ImageURL{set;get;} = "";
   public IFormFile? file{set;get;}
 
-  public List<CategoryPropertyDTO>? CategoryPropertiesDTO{set;get;}
+  public List<CategoryPropertyDTO>? CategoryPropertiesDTO{set;get;} = null;
 }
