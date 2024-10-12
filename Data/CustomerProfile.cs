@@ -15,6 +15,8 @@ public class CustomerProfile : Profile
         CreateMap<Item, ItemDTO>().ReverseMap();
         CreateMap<ItemImage, ItemImageDTO>().ReverseMap();
         CreateMap<Salary, SalaryDTO>().ReverseMap();
+        CreateMap<Tag, TagDTO>().ReverseMap();
+        CreateMap<TagItem, TagItemDTO>().ReverseMap();
         CreateMap<Marka, MarkaDTO>().ReverseMap();
         CreateMap<PriceIn, PriceInDTO>().ReverseMap();
         CreateMap<Trader, TraderDTO>().ReverseMap();
