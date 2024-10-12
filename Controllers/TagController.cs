@@ -19,6 +19,15 @@ using Microsoft.AspNetCore.Mvc;
       return Ok(tag);
       
     }
+
+    [HttpPost("AddTagItem")]
+    public async Task<ActionResult<TagItemDTO>> addTag([FromBody] TagItemDTO tagItemDTO)
+    {
+      var command = new AddTagItemCommand(tagItemDTO);
+      var tagItem = await _mediator.Send(command);
+      return Ok(tagItem);
+      
+    }
  
     [HttpGet("getTag/{tagId}")]
     public async Task<ActionResult<TagDTO>> getTag(int tagId)

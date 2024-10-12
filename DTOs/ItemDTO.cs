@@ -9,6 +9,8 @@ public class ItemDTO{
     public MarkaDTO? MarkaDTO {get;set;}
     public CategoryDTO? CategoryDTO {get;set;}
 
+    public List<TagItemDTO>? TagItemDTOs{set;get;}
+
     public static implicit operator ItemDTO(Item v)
     {
         throw new NotImplementedException();

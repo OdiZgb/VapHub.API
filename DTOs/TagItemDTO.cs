@@ -3,6 +3,6 @@ public class TagItemDTO{
   public int TagId{set;get;}
   public int ItemId{set;get;}
 
-  public string TagNAme{set;get;}
+  public string? TagNAme{set;get;}
   
 }

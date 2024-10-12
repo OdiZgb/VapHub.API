@@ -23,6 +23,7 @@ public class AddItemCommandHandeler : IRequestHandler<AddItemCommand, ItemDTO>
           greatesBarcode = id;
         }
       }
+
       string intendedNewBarcode =  (""+(greatesBarcode + 1)).PadLeft(3,'0');
 
      
@@ -38,6 +39,17 @@ public class AddItemCommandHandeler : IRequestHandler<AddItemCommand, ItemDTO>
         var saveResult = await _dbContext.SaveChangesAsync(cancellationToken);
 
 
+    foreach (var tagDTO in request._itemDTO.TagItemDTOs)
+      {
+      Tag tag =  await _dbContext.Tags.FirstOrDefaultAsync(x=>x.Id==tagDTO.TagId);
+      if(tag!=null){
+        TagItem tagItem= new(){ItemId = item.Id, TagId = tag.Id};
+        _dbContext.TagItems.Add(tagItem);
+        await _dbContext.SaveChangesAsync(cancellationToken);
+
+      }
+      
+      }
       return new ItemDTO
       {
         Id = item.Id,
