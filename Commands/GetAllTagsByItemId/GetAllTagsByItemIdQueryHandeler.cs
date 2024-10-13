@@ -23,9 +23,9 @@ public class GetAllTagsByItemIdQueryHandeler : IRequestHandler<GetAllTagsByItemI
 
         foreach (var TagItem in a)
         {
-            TagItem.TagNAme  ="loading...";
+            TagItem.TagName  ="loading...";
             var tag = await _dbContext.Tags.FirstOrDefaultAsync(x=>x.Id==TagItem.TagId);
-            TagItem.TagNAme = tag.Title;
+            TagItem.TagName = tag.Title;
         }
 
         return a;
