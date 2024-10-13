@@ -1,8 +1,8 @@
 public class TagItemDTO{
-  public int Id{set;get;}
-  public int TagId{set;get;}
-  public int ItemId{set;get;}
+  public int Id{set;get;} = 0;
+  public int TagId{set;get;} = 0;
+  public int ItemId{set;get;} = 0;
 
-  public string? TagNAme{set;get;}
+  public string? TagNAme{set;get;} 
   
 }
