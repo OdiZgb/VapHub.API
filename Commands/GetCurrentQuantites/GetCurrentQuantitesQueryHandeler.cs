@@ -1,6 +1,7 @@
 
 using Data;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 public class GetCurrentQuantitesQueryHandeler : IRequestHandler<GetCurrentQuantitesQuery, IEnumerable<ItemQuantityDTO>>
 {
@@ -17,11 +18,13 @@ public class GetCurrentQuantitesQueryHandeler : IRequestHandler<GetCurrentQuanti
     {
         List<ItemQuantityDTO> quantites = new List<ItemQuantityDTO>();
         List<Item> items = _dbContext.Items.ToList();
-
+        
         foreach (var item in items)
         {
             List<Inventory> inventory = _dbContext.Inventory.Where(x => x.ItemId == item.Id).ToList();
-            int q = 0;
+            int  numberOfSalesForAnItem = _dbContext.HistoryOfCashBill.Where(x=>x.ItemId == item.Id && x.SoftDeleted!=1).ToList().Count();
+            int q = -numberOfSalesForAnItem;
+
             foreach (var itemIninventory in inventory)
             {
                 q = (int)(q + itemIninventory?.NumberOfUnits + 0);
@@ -42,13 +45,16 @@ public class GetCurrentQuantitesQueryHandeler : IRequestHandler<GetCurrentQuanti
                 }
             };
 
-            ItemQuantityDTO itemQuantityDTO = new ItemQuantityDTO{
-              ItemDTO = itemDTO,
-              Quantity = q
-            };
+                
+                ItemQuantityDTO itemQuantityDTO = new ItemQuantityDTO
+                {
+                    ItemDTO = itemDTO,
+                    Quantity = q
+                };
+
 
             quantites.Add(itemQuantityDTO);
-         
+
         }
         return quantites;
     }

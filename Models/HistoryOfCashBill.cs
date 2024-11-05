@@ -2,7 +2,7 @@ public class HistoryOfCashBill
 {
     public int Id { set; get; }
     public string? ItemName { get; set; }
-    public string? ItemId { get; set; }
+    public int? ItemId { get; set; }
     public string? ItemBarcode { get; set; }
     public double? ItemCostIn { get; set; }
     public double? ItemCostOut { get; set; }

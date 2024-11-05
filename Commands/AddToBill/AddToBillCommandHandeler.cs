@@ -37,35 +37,28 @@ public async Task<BillDTO> Handle(AddToBillCommand request, CancellationToken ca
 
     // Process items and count occurrences
     var itemCountMap = new Dictionary<int, int>();
-    foreach (var item in request._billDTO.Items)
+foreach (var item in request._billDTO.Items)
+{
+    var itemDB = await _dbContext.Items
+        .Include(x => x.Category)
+        .Include(x => x.Marka)
+        .Include(x => x.PriceIn)
+        .Include(x => x.PriceOut)
+        .FirstOrDefaultAsync(x => x.Id == item.Id);
+
+    if (itemDB != null && itemDB.PriceOut != null)
     {
-        var itemDB = await _dbContext.Items
-            .Include(x => x.Category)
-            .Include(x => x.Marka)
-            .Include(x => x.PriceIn)
-            .Include(x => x.PriceOut)
-            .FirstOrDefaultAsync(x => x.Id == item.Id);
+        requiredPrice += itemDB.PriceOut.Price;
 
-        if (itemDB != null && itemDB.PriceOut != null)
-        {
-            requiredPrice += itemDB.PriceOut.Price;
-            items.Add(itemDB);
-
-            if (itemCountMap.ContainsKey(item.Id))
-            {
-                itemCountMap[item.Id]++;
-            }
-            else
-            {
-                itemCountMap[item.Id] = 1;
-            }
-        }
-        else
-        {
-            Console.WriteLine($"Item not found or item price not set: ItemId={item.Id}");
-            throw new Exception($"Item with ID {item.Id} not found or item price not set.");
-        }
+        // Track each occurrence individually if duplicates are required
+        items.Add(itemDB);  // Add each occurrence of the item
     }
+    else
+    {
+        Console.WriteLine($"Item not found or item price not set: ItemId={item.Id}");
+        throw new Exception($"Item with ID {item.Id} not found or item price not set.");
+    }
+}
     List<HistoryOfCashBill> historyOfCashBills = new List<HistoryOfCashBill>();
 
     // Fetch the employee and check if it is null
@@ -167,11 +160,10 @@ public async Task<BillDTO> Handle(AddToBillCommand request, CancellationToken ca
                 var user = await _dbContext.Users.FirstOrDefaultAsync(x=>x.Id==employee1.UserId);
                 var trader = await _dbContext.Traders.FirstOrDefaultAsync(x=>x.Id==Inventor.TraderId);
                 historyOfCashBill.barcode = item.Barcode;
-                historyOfCashBill.ItemName = Item.Id+"";
-                historyOfCashBill.ItemId = Item.Name;
+                historyOfCashBill.ItemName = Item.Name;
+                historyOfCashBill.ItemId = Item.Id;
                 historyOfCashBill.ItemCostIn = Item.PriceIn.Price;
                 historyOfCashBill.ItemCostOut = Item.PriceOut.Price;
-                historyOfCashBill.ItemId = Item.Name;
                 historyOfCashBill.ItemBarcode = Item.Barcode;
                 historyOfCashBill.RequierdPrice = request._billDTO.RequierdPrice;
                 historyOfCashBill.ClientName = client.Name;
