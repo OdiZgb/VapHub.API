@@ -6,9 +6,13 @@ using Microsoft.EntityFrameworkCore;
 public class GetItemQueryHandeler : IRequestHandler<GetItemQuery, ItemDTO>
 {
   public AppDbContext _dbContext { set; get; }
-  public GetItemQueryHandeler(AppDbContext dbContext)
+  private readonly IMediator _mediator;
+
+  public GetItemQueryHandeler(AppDbContext dbContext,IMediator mediator)
   {
     _dbContext = dbContext;
+      _mediator = mediator;
+
   }
 
     async Task<ItemDTO> IRequestHandler<GetItemQuery, ItemDTO>.Handle(GetItemQuery request, CancellationToken cancellationToken)
@@ -16,7 +20,8 @@ public class GetItemQueryHandeler : IRequestHandler<GetItemQuery, ItemDTO>
 
         Item item =  _dbContext.Items.Include(e => e.itemImages).Include(e => e.Category).Include(c => c.PriceIn).Include(x => x.PriceOut).Include(e => e.Marka).FirstOrDefault(x => x.Id == request.itemId);
         ItemDTO itemDTO = new ItemDTO();
-
+        var query = new GetAllTagsByItemIdQuery(item.Id);
+        var allTagsForItem = await _mediator.Send(query);
         List<ItemImageDTO> itemImageDTO = new List<ItemImageDTO>();
         foreach (ItemImage image in item.itemImages)
         {
@@ -66,9 +71,9 @@ public class GetItemQueryHandeler : IRequestHandler<GetItemQuery, ItemDTO>
                 Price = item.PriceOut?.Price ?? 0,
                 Date = default, // Set the appropriate value if necessary
                 ExpirationDate = default // Set the appropriate value if necessary
-            }
-        };
-
+            },
+            TagItemDTOs = (List<TagItemDTO>)allTagsForItem
+         };
 
         return  itemDTO;
     }
