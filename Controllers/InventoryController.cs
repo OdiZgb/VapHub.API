@@ -37,6 +37,27 @@ public class InventoryController : ControllerBase
         return Ok(allInventory);
     }
 
+    [HttpGet("getAllInventoryPagination")]
+    public async Task<ActionResult<IEnumerable<InventoryDTO>>> GetAllInventory([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
+    {
+        // Validate the page size to prevent potential performance issues
+        if (pageSize <= 0 || pageNumber <= 0)
+        {
+            return BadRequest("Page number and page size must be greater than zero.");
+        }
+
+        var query = new GetAllInventoryPaginationQuery(pageNumber, pageSize);
+        var allInventory = await _mediator.Send(query);
+
+        if (allInventory == null || !allInventory.Any())
+        {
+            return NotFound("No inventory items found for the given parameters.");
+        }
+
+        return Ok(allInventory);
+    }
+
+
     [HttpGet("getAllInventoryByBarcode/{barcode}")]
     public async Task<ActionResult<IEnumerable<InventoryDTO>>> GetAllInventoryByBarcode(string barcode)
     {
@@ -85,12 +106,12 @@ public class InventoryController : ControllerBase
         return Ok(shipmentImage);
     }
 
-[HttpPut("editInventoryQuantity/{id}")]
-public async Task<ActionResult<InventoryDTO>> EditInventoryQuantity(int id, [FromBody] UpdateInventoryQuantityDTO quantityDTO)
-{
-    var command = new EditInventoryQuantityCommand(id, quantityDTO);
-    var updatedInventory = await _mediator.Send(command);
-    return Ok(updatedInventory);
-}
+    [HttpPut("editInventoryQuantity/{id}")]
+    public async Task<ActionResult<InventoryDTO>> EditInventoryQuantity(int id, [FromBody] UpdateInventoryQuantityDTO quantityDTO)
+    {
+        var command = new EditInventoryQuantityCommand(id, quantityDTO);
+        var updatedInventory = await _mediator.Send(command);
+        return Ok(updatedInventory);
+    }
 
 }
