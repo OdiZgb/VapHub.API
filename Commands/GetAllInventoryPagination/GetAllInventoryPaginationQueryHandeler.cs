@@ -25,12 +25,14 @@ public async Task<IEnumerable<InventoryDTO>> Handle(GetAllInventoryPaginationQue
         .Include(e => e.PriceIn)
         .Include(e => e.Trader)
         .Include(x => x.Employee).ThenInclude(x => x.User)
+        .OrderByDescending(x => x.Id) // Adjust to the field tracking new additions
         .Skip((request.PageNumber - 1) * request.PageSize)
         .Take(request.PageSize)
-        .ToListAsync();
+        .ToListAsync(cancellationToken);
 
     return _mapper.Map<List<InventoryDTO>>(inventories);
 }
+
 
 
 }
