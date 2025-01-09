@@ -23,11 +23,12 @@ public class GetCurrentQuantitesQueryHandeler : IRequestHandler<GetCurrentQuanti
         {
             List<Inventory> inventory = _dbContext.Inventory.Where(x => x.ItemId == item.Id).ToList();
             int  numberOfSalesForAnItem = _dbContext.HistoryOfCashBill.Where(x=>x.ItemId == item.Id && x.SoftDeleted!=1).ToList().Count();
-            int q = -numberOfSalesForAnItem;
+            int numberOfRefunds = _dbContext.HistoryOfCashBill.Where(x=>x.ItemId == item.Id && x.SoftDeleted!=1&&  x.IsRefund==1).ToList().Count();
+            int q = numberOfRefunds-numberOfSalesForAnItem;
 
             foreach (var itemIninventory in inventory)
             {
-                q = (int)(q + itemIninventory?.NumberOfUnits + 0);
+                q = (int)(q + itemIninventory?.NumberOfUnits + numberOfRefunds);
             }
 
             ItemDTO itemDTO = new ItemDTO()

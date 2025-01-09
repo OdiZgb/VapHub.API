@@ -20,4 +20,5 @@ public class HistoryOfCashBill
     public double? ClientCashPayed {set;get;}
     public double? ClientRecived {set;get;}
     public int? SoftDeleted {set;get;}
+    public int? IsRefund {set;get;} = 0;
 }

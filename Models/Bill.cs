@@ -14,4 +14,5 @@ public class Bill{
     public Client? Client;
     public ClientDebt? ClientDebt{set;get;}
     public ICollection<Item> Items{set;get;}
+    public int? IsRefund {set;get;} = 0;
 }

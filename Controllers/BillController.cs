@@ -19,6 +19,14 @@ using Microsoft.AspNetCore.Mvc;
       var BillDTO = await _mediator.Send(command);
       return Ok(BillDTO);
     }
+    
+    [HttpPost("addRefundToBill")]
+    public async Task<ActionResult<BillDTO>> addRefundToBill([FromBody] BillDTO billDTO)
+    {
+      var command = new addRefundToBillCommand(billDTO);
+      var BillDTO = await _mediator.Send(command);
+      return Ok(BillDTO);
+    }
 
 
     [HttpPut("completeDebt/{id}")]
