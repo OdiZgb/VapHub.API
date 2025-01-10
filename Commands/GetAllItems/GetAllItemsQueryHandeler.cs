@@ -21,6 +21,7 @@ public class GetAllItemsQueryHandeler : IRequestHandler<GetAllItemsQuery, IEnume
     {
         List<Item> items = await _dbContext.Items.Include(e => e.itemImages).Include(e => e.Category).Include(c => c.PriceIn).Include(x => x.PriceOut).Include(e => e.Marka).ToListAsync();
         List<ItemDTO> itemsDTOs = new List<ItemDTO>();
+        List<Tag> tags = await _dbContext.Tags.ToListAsync();
 
         foreach (Item item in items)
         {
@@ -77,8 +78,22 @@ public class GetAllItemsQueryHandeler : IRequestHandler<GetAllItemsQuery, IEnume
                     Price = item.PriceOut?.Price ?? 0,
                     Date = default, // Set the appropriate value if necessary
                     ExpirationDate = default // Set the appropriate value if necessary
-                }
+                },
+                TagsDTO = new List<TagDTO>()
             };
+
+            var tagItems = await _dbContext.TagItems.Where(x=>x.ItemId==item.Id).ToListAsync();
+
+            foreach (var itemTag in tagItems)
+            {
+                Tag tagsInItem = tags.Where(x=>x.Id==itemTag.TagId).FirstOrDefault();
+                TagDTO tagDTO = new(){
+                    Id = tagsInItem.Id,
+                    Title = tagsInItem.Title
+                };
+                itemDTO.TagsDTO.Add(tagDTO);
+            }
+
             itemsDTOs.Add(itemDTO);
         }
 

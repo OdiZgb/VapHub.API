@@ -10,6 +10,7 @@ public class ItemDTO{
     public CategoryDTO? CategoryDTO {get;set;}
 
     public List<TagItemDTO>? TagItemDTOs{set;get;}
+    public List<TagDTO>? TagsDTO{set;get;}
 
     public static implicit operator ItemDTO(Item v)
     {
