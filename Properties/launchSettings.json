@@ -9,7 +9,7 @@
     }
   },
   "profiles": {
-    "VapHub.API": {
+    "CherryRestaurantCafe.API": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": true,
